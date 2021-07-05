@@ -8,7 +8,6 @@ from flask import Flask, request
 from datetime import datetime,time,timedelta
 import sublist3r
 import threading
-from signal import signal, SIGINT
 import time
 import requests
 
@@ -164,6 +163,11 @@ def gather():
 def apprun():
     app.run(debug=True, host='0.0.0.0', port=5000, use_reloader=False)
 
+def takeover():
+    db=client.db
+    conn=db.sites
+
+
 def github_dork(org):
     db=client.db
     conn=db.github
@@ -207,12 +211,14 @@ def github_dork(org):
         
 if __name__ == '__main__':
     t=threading.Thread(target=apprun, daemon=True).start()
-    subdomains(org)
+    
+    subdomains("zolostays.com")
+    
     try:
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        print("exiting")
+        print("Exiting")
         exit(0)
         
 #netstat -n | find ":3389" | find "ESTABLISHED" => Finds the IP of source device from which user has used Remote Desktop
