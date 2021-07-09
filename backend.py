@@ -172,5 +172,24 @@ def login():
     return jsonify({'token' : token.decode('UTF-8')})
     return "Correct Password"
 
+# password change krne ke lie. Make sure ki jaise hi ispe request pade aur successful ho, to frontend se puraana token delete krna hai and firse login page pe redirect krna hai.
+@app.route('/change_password',methods=["POST"])
+@token_required
+def change_password():
+    old_password=request.json['old_password']
+    new_password=request.json['new_password']
+    cnf_new_password=request.json['cnf_new_password']
+    if new_password != cnf_new_password:
+        return jsonify({"Message":"Passwords do not match."})
+    db=client.db
+    to_check=db.first
+    for all_p in to_check.find():
+        stored_password=all_p['password']
+    chck=verify_password(stored_password,old_password)
+    if chck==False:
+        return jsonify({"Message":"Incorrect old password."})
+    hash_password(new_password)
+    return jsonify({"Message":"Password changed successfully"})
+
 if __name__=='__main__':
     app.run(debug=True)
