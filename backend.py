@@ -6,6 +6,7 @@ import jwt
 from functools import wraps
 import datetime
 import hashlib, binascii, os
+import random,string
 
 def hash_password(password):
     """Hash a password for storing."""
@@ -168,7 +169,10 @@ def login():
     chck=verify_password(stored_password,password)
     if chck==False:
         return "Incorrect password provided"
-    token = jwt.encode({'password': password, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+    all_chars=string.ascii_letters+string.digits
+    random_string=''.join(random.choices(all_chars, k=20))
+    print(random_string)
+    token = jwt.encode({'random': random_string, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=300)}, app.config['SECRET_KEY'])
     return jsonify({'token' : token.decode('UTF-8')})
     return "Correct Password"
 
