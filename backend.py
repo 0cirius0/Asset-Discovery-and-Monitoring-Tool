@@ -33,7 +33,7 @@ def verify_password(stored_password, provided_password):
     return pwdhash == stored_password
 
 app=Flask(__name__)
-app.config['SECRET_KEY']='Th1s1ss3cr3t'
+app.config['SECRET_KEY']='Th1s1ss3cr3t' # isko hide krna hai
 
 client=MongoClient('mongodb+srv://cirius:MVA1IzOr8GCYoSv8@cluster0.53e13.mongodb.net/db?retryWrites=true&w=majority')
 
@@ -196,4 +196,4 @@ def change_password():
     return jsonify({"Message":"Password changed successfully"})
 
 if __name__=='__main__':
-    app.run(debug=True)
+    app.run(debug=True,ssl_context='adhoc')
