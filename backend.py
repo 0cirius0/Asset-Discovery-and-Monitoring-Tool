@@ -75,7 +75,7 @@ def get_computers():
     temp_list=[]
     for all in all_computers.find():
         del all['_id']
-        if(all['dnshostname']==dnshostname):
+        if(dnshostname in all['dnshostname']):
             temp_list.append(all)
     return jsonify(temp_list)
 
@@ -207,6 +207,7 @@ def change_password():
     hash_password(new_password)
     return jsonify({"Message":"Password changed successfully"})
 
+#get dnshostname from computers table
 @app.route('/get_dnshostname',methods=['GET'])
 @token_required
 def get_dnshostname():
@@ -214,9 +215,42 @@ def get_dnshostname():
     all_computers=db.computers
     temp_list=[]
     for all in all_computers.find():
-        if all['dnshostname'] in temp_list:
+        ind=all['dnshostname'].index('.')
+        temp_str=all['dnshostname']
+        temp_str=temp_str[ind+1:]
+        if temp_str in temp_list:
             continue
-        temp_list.append(all['dnshostname'])
+        temp_list.append(temp_str)
+    return jsonify(temp_list)
+
+#get dnshostname from users table
+@app.route('/get_dnshostname_users',methods=['GET'])
+@token_required
+def get_dnshostname_users():
+    db=client.db
+    all_users=db.users
+    temp_list=[]
+    for all in all_users.find():
+        ind=all['userprincipalname'].index('@')
+        temp_str=all['userprincipalname']
+        temp_str=temp_str[ind+1:]
+        if temp_str in temp_list:
+            continue
+        temp_list.append(temp_str)
+    return jsonify(temp_list)
+
+@app.route('/get_users',methods=['POST'])
+@token_required
+def get_users():
+    userprincipalname=request.json['userprincipalname']
+    db=client.db
+    all_users=db.users
+    temp_list=[]
+    for all in all_users.find():
+        del all['_id']
+        if userprincipalname in all['userprincipalname']:
+            temp_list.append(all)
+
     return jsonify(temp_list)
 
 if __name__=='__main__':
