@@ -54,17 +54,29 @@ def token_required(f):
    return decorator
 
 
-# computers data ko fetch karne ke lie
+# computers data ko fetch karne ke lie (subject to be removed in case koi zrurat na padi to)
 @app.route('/computers',methods=['GET'])
 @token_required
 def computers():
-
     db=client.db
     all_computers=db.computers
     temp_list=[]
     for all in all_computers.find():
         del all['_id']
         temp_list.append(all)
+    return jsonify(temp_list)
+
+@app.route('/get_computers',methods=['POST'])
+@token_required
+def get_computers():
+    dnshostname=request.json['dnshostname']
+    db=client.db
+    all_computers=db.computers
+    temp_list=[]
+    for all in all_computers.find():
+        del all['_id']
+        if(all['dnshostname']==dnshostname):
+            temp_list.append(all)
     return jsonify(temp_list)
 
 #users data ko fetch krne ke lie
@@ -194,6 +206,18 @@ def change_password():
         return jsonify({"Message":"Incorrect old password."})
     hash_password(new_password)
     return jsonify({"Message":"Password changed successfully"})
+
+@app.route('/get_dnshostname',methods=['GET'])
+@token_required
+def get_dnshostname():
+    db=client.db
+    all_computers=db.computers
+    temp_list=[]
+    for all in all_computers.find():
+        if all['dnshostname'] in temp_list:
+            continue
+        temp_list.append(all['dnshostname'])
+    return jsonify(temp_list)
 
 if __name__=='__main__':
     app.run(debug=True,ssl_context=('cert.pem', 'key.pem'))
