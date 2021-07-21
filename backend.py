@@ -54,17 +54,29 @@ def token_required(f):
    return decorator
 
 
-# computers data ko fetch karne ke lie
+# computers data ko fetch karne ke lie (subject to be removed in case koi zrurat na padi to)
 @app.route('/computers',methods=['GET'])
 @token_required
 def computers():
-
     db=client.db
     all_computers=db.computers
     temp_list=[]
     for all in all_computers.find():
         del all['_id']
         temp_list.append(all)
+    return jsonify(temp_list)
+
+@app.route('/get_computers',methods=['POST'])
+@token_required
+def get_computers():
+    dnshostname=request.json['dnshostname']
+    db=client.db
+    all_computers=db.computers
+    temp_list=[]
+    for all in all_computers.find():
+        del all['_id']
+        if(dnshostname in all['dnshostname']):
+            temp_list.append(all)
     return jsonify(temp_list)
 
 #users data ko fetch krne ke lie
@@ -194,6 +206,160 @@ def change_password():
         return jsonify({"Message":"Incorrect old password."})
     hash_password(new_password)
     return jsonify({"Message":"Password changed successfully"})
+
+#get dnshostname from computers table
+@app.route('/get_dnshostname',methods=['GET'])
+@token_required
+def get_dnshostname():
+    db=client.db
+    all_computers=db.computers
+    temp_list=[]
+    for all in all_computers.find():
+        ind=all['dnshostname'].index('.')
+        temp_str=all['dnshostname']
+        temp_str=temp_str[ind+1:]
+        if temp_str in temp_list:
+            continue
+        temp_list.append(temp_str)
+    return jsonify(temp_list)
+
+#get dnshostname from users table
+@app.route('/get_dnshostname_users',methods=['GET'])
+@token_required
+def get_dnshostname_users():
+    db=client.db
+    all_users=db.users
+    temp_list=[]
+    for all in all_users.find():
+        ind=all['userprincipalname'].index('@')
+        temp_str=all['userprincipalname']
+        temp_str=temp_str[ind+1:]
+        if temp_str in temp_list:
+            continue
+        temp_list.append(temp_str)
+    return jsonify(temp_list)
+
+@app.route('/get_users',methods=['POST']) # THODA CHANGE KIA HAI MERGING KE BAAD (Monitor waala field add kia hai)
+@token_required
+def get_users():
+    userprincipalname=request.json['userprincipalname']
+    db=client.db
+    all_users=db.users
+    temp_list=[]
+    for all in all_users.find():
+        del all['_id']
+        #print(type(all['memberof']))
+        #print(all['memberof'])
+        temp_char_list=all['memberof'].split(',')
+        print(temp_char_list)
+        if 'lastlogon' in all.keys():
+            all['monitor']=True
+        else:
+            all['monitor']=False
+        if userprincipalname in all['userprincipalname']:
+            temp_list.append(all)
+    return jsonify(temp_list)
+
+## NEW ROUTES ADDED AFTER MERGING
+@app.route('/get_computers_os', methods=["POST"]) ## /computers aur get_computers waali use nhi krenge then
+@token_required
+def get_computers_os():
+    dnshostname=request.json['dnshostname']
+    db=client.db
+    all_computers=db.computers
+    temp_list={}
+    for all in all_computers.find():
+        del all['_id']
+        if(dnshostname in all['dnshostname']):
+            if all['operatingsystem'] in temp_list.keys():
+                print("HERE")
+                temp_list[all['operatingsystem']].append(all)
+            else:
+                #print(dict(all))
+                new_temp_list=[]
+                new_temp_list.append(all)
+                temp_list[all['operatingsystem']]=new_temp_list
+                print(temp_list)
+    return jsonify(temp_list)
+
+@app.route('/get_memberof_users',methods=['GET'])
+@token_required
+def get_memberof_users():
+    db=client.db
+    all_users=db.users
+    temp_list=[]
+    for all in all_users.find():
+        del all['_id']
+        temp_char_list=all['memberof'].split(',')
+        for word in temp_char_list:
+            print(word)
+            if '=' in word:
+                ind=word.index('=')
+                if word[ind-1]=='N':
+                    if word[ind+1:] not in temp_list:
+                        temp_list.append(word[ind+1:])
+                    print(word[ind+1:])
+    return jsonify(temp_list)
+
+@app.route('/get_memberof_computers',methods=['GET'])
+@token_required
+def get_memberof_computers():
+    db=client.db
+    all_computers=db.computers
+    temp_list=[]
+    for all in all_computers.find():
+        del all['_id']
+        temp_char_list=all['memberof'].split(',')
+        for word in temp_char_list:
+            if '=' in word:
+                ind=word.index('=')
+                if word[ind-1]=='N':
+                    if word[ind+1:] not in temp_list:
+                        temp_list.append(word[ind+1:])
+                    print(word[ind+1:])
+    return jsonify(temp_list)
+
+@app.route('/filter_members_computers',methods=["POST"])
+@token_required
+def filter_members_computers():
+    to_get=request.json['list']
+    dnshostname=request.json['dnshostname']
+    temp_list=[]
+    db=client.db
+    all_computers=db.computers
+    for all in all_computers.find():
+        del all['_id']
+        if dnshostname in all['dnshostname']:
+            if len(to_get)==0:
+                temp_list.append(all)
+            for word in to_get:
+                if word in all['memberof']:
+                    temp_list.append(all)
+                    break
+
+    return jsonify(temp_list)
+
+@app.route('/filter_members_users',methods=["POST"])
+@token_required
+def filter_members_users():
+    to_get=request.json['list']
+    userprincipalname=request.json['userprincipalname']
+    temp_list=[]
+    db=client.db
+    all_users=db.users
+    for all in all_users.find():
+        del all['_id']
+        if userprincipalname in all['userprincipalname']:
+            if len(to_get)==0:
+                temp_list.append(all)
+            for word in to_get:
+                print(word)
+                if word in all['memberof']:
+                    temp_list.append(all)
+                    break
+
+    return jsonify(temp_list)
+
 
 if __name__=='__main__':
     app.run(debug=True,ssl_context=('cert.pem', 'key.pem'))
