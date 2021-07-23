@@ -1,8 +1,0 @@
-.monitor-on{
-    cursor: pointer;
-    text-decoration: underline;
-}
-.monitor-on:hover{
-    color:blue;
-    cursor: pointer;
-}
