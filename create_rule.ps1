@@ -1,0 +1,1 @@
+netsh advfirewall firewall add rule name= "AssetMonitoring" dir=in action=allow protocol=TCP profile=domain,private localport=5000

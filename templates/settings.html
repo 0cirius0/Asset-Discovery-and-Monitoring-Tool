@@ -1,0 +1,126 @@
+
+
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="../static/settings.css">
+{% endblock %}
+{% block main %}
+    <div class="bg">
+
+        <div class="container">
+
+            <div class="card p-2 shadow">
+                
+                <form id="cp-form" class="ms-5 row align-items-center p-3" action="/change_password" method="post" style="width: 400px; height: 200px; background-color: white;">
+                    <h3 class="col-12 mb-2">Change Password</h3>
+                    <input name="old_password" class="m-2 col-12 form-control p-2" type="password" placeholder="Old Password" />
+                    <input name="new_password" class="m-2 col-6 form-control p-2" type="password" placeholder="New Password" />
+                    <input name="cnf_new_password" class="m-2 col-6 form-control p-2" type="password" placeholder="Confirm Password" />
+                    <input class="col-4 btn btn-success m-2 d-block" type="submit" value = "Proceed" />
+                    
+                  </form>
+            </div>
+
+            
+<br>
+              <hr>
+
+              <form method="post" action="/get_credentials" class="login-form p-5 rounded shadow mt-5">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Domain Controller name</label>
+                    <input type="text" name="dc_name" id="dc_name" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" name="username" id="username" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Password</label>
+                    <input type="text" name="paasword" id="password" class="form-control">
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onclick="show_cred()">
+                    <label class="form-check-label" for="flexCheckDefault">
+                      Remote Network
+                    </label>
+                </div>
+                <div class="mb-3 hidden">
+                    <label for="username" class="form-label">SSH server</label>
+                    <input type="text" name="ssh" id="ssh" class="form-control">
+                </div><div class="mb-3 hidden">
+                    <label for="username hidden" class="form-label">SSH username</label>
+                    <input type="text" name="ssh_user" id="ssh_user" class="form-control">
+                </div><div class="mb-3 hidden">
+                    <label for="username hidden" class="form-label">SSH Password</label>
+                    <input type="text" name="ssh_pass" id="ssh_pass" class="form-control">
+                </div>
+                <div class="mb-3 hidden">
+                    <label for="username hidden" class="form-label">SSH port</label>
+                    <input type="text" name="port" id="port" class="form-control">
+                </div>
+                
+                
+    
+                
+                <div class="mb-3 mt-4 ">
+                   <input type="submit" class="btn btn-success login-btn">
+                </div>
+            </form>
+            <br>
+
+            <hr>
+            <br>
+
+            <div class="card">
+                <div class="row m-3">
+                {% for d in data %}
+
+                    
+                        <div class="key m-2 border d-flex justify-content-between border-1 btn-warning rounded" style="width: 170px;color:white;">{{d}}
+                            <form action="/remove_keyword" method="post">
+                            <input name="keyword" type="text" value="{{d}}" style="display: none;" />
+                            <button class="btn btn-danger delete border border-1 border-dark" type="submit" >
+                                <svg class="cross" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                              </button>
+                            </form>
+                        </div>
+                    
+                {% endfor %}
+                
+            </div>
+            <form class=" ms-2 row rounded p-3" action="/add_keyword" method="post" style="width:200px;">
+                <input name="keyword" class="mb-2 col-12 form-control" type="text" placeholder="Enter key" />
+                <input class="col-4 btn btn-success" type="submit" value = "Add" />
+                
+              </form>
+            </div>
+            
+              
+
+
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+function show_cred(){
+    var cb = document.getElementById("flexCheckDefault")
+    var ar = document.getElementsByClassName("hidden")
+
+    if(cb.checked == true){
+        for(var i = 0 ; i < ar.length ; i++ ){
+            var temp = ar[i]
+            temp.style.display = "block"
+        }
+    }
+    else{
+        for(var i = 0 ; i < ar.length ; i++ ){
+            var temp = ar[i]
+            temp.style.display = "none"
+        }
+    }
+}
+{% endblock %}

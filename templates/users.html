@@ -1,0 +1,115 @@
+
+
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="../static/users.css">
+{% endblock %}
+{% block main %}
+<div class="bg">
+  <div class="container mt-4">
+      <table class="table table-hover table-responsive table-striped" style="display:block;">
+        <thead>
+            <tr>
+                <th class="column-2">Name
+                  
+                </th>
+                <th class="column-2">Groups</th>
+                <th class="column-2 pe-5" style="text-align:right;">User Principal Name</th>
+                <!-- <th class="column-2">Monitor</th>                   -->
+            </tr>
+        </thead>
+        <tbody>
+  
+          {% if data %}
+            {% for d in data %}
+                <tr onclick="show_sub('{{d['userprincipalname']}}')" class="">
+                  <td class="column-2 {{d.monitor}}" style="position: relative;">{{d['name']}}
+
+                    {% set x = d["monitor"] %}
+                    {% set y = 'True' %}
+                    {% if x|string() == y|string() %}
+            
+                      {% if d.current_device|string() != "null" %}
+
+                      <div class="status" style="position: relative;left:100px;bottom:14.5px;">
+                        &nbsp;
+                      </div>
+                      {% endif %}
+                    {% endif %}
+                  </td>
+                  <td class="column-2 {{d.monitor}}">
+                    {% for e in d.memberof %}
+                    - {{e}} <br>
+                    {% endfor%}
+                  </td>
+                  <td class="column-2 pe-5 {{d.monitor}}" style="text-align:right;">{{d["userprincipalname"]}}</td>
+                  <!-- <td class="column-2">{{d["monitor"]}}</td>                       -->
+                </tr>
+                {% set x = d["monitor"] %}
+                {% set y = 'True' %}
+                {% if x|string() == y|string() %}
+
+                <tr class="{{d['userprincipalname']}}" style="display: none;">
+                  <td class="ps-4" colspan="4">
+                    <table class="subtable">
+                      <thead class="subtable-head">
+                        <tr class="subtable-row">
+                          <th>Current Device</th>
+                          <th>Last Logon</th>
+                          <th>Last Device</th>
+                        </tr>
+                      </thead>  
+                      <tbody>
+                        <td>{{d["current_device"]}}</td>
+                        <td>{{d["lastlogon"]}}</td>
+                        <td>{{d["last_device"]}}</td>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>   
+
+
+                    <!-- <tr class="" style="display: none;">
+                      <td><div style="width: 30px;" class="indent"></div></td>
+                      <th>Current Device</th>
+                      <th>Last Logon</th>
+                      <th>Last Device</th>
+                      
+                    </tr>
+                    <tr class="{{d['userprincipalname']}}" style="display: none;">
+                      <td><div style="width: 30px;" class="indent"></div></td>
+                      <td>{{d["current_device"]}}</td>
+                      <td>{{d["lastlogon"]}}</td>
+                      <td>{{d["last_device"]}}</td> -->
+                      
+                    </tr>
+                {% endif %}
+            {% endfor %}
+          
+          {% endif %}
+  
+          
+          
+          
+        </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+{% block script %}
+    function show_sub(ip){
+      var tr = document.getElementsByClassName(ip)
+      for(var i=0;i < tr.length;i++){
+        if(tr[i].style.display == "none"){
+          tr[i].style.display = ""
+        }
+        else if(tr[i].style.display == ""){
+          tr[i].style.display = "none"
+        }
+      
+      }
+    }
+
+  {% endblock %}

@@ -1,0 +1,76 @@
+.bg{
+    width: 100%;
+    min-height: 100vh;
+    background: #c850c0;
+    background: -webkit-linear-gradient(45deg,#4158d0,#c850c0);
+    background: -o-linear-gradient(45deg,#4158d0,#c850c0);
+    background: -moz-linear-gradient(45deg,#4158d0,#c850c0);
+    background: linear-gradient(45deg,#4158d0,#c850c0);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 33px 30px;
+}
+table{
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+thead{
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+   
+}
+table thead tr{
+    background: #36304a;
+}
+th{
+    
+    
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.2;
+    font-weight: unset;
+}
+.column-2{
+    width: 11.11%;
+    padding-left: 40px;
+}
+.subtable{
+    font-size: small;
+    color: black;
+}
+.subtable thead tr{
+    background: #36304a70;
+}
+.subtable thead tr th{
+    padding-inline-start : 8px;
+}
+.subtable-head{
+    color: white;
+}
+
+.status{
+
+    background-color: rgb(16, 207, 16);
+    border-radius: 4px;
+    width: 9px;
+    height: 9px;
+    display: block;
+
+}
+
+
+.True{
+    cursor: pointer;
+}

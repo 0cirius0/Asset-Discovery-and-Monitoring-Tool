@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>choose DNS host</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&family=Syncopate&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/dns.css">
+</head>
+<body>
+    <div class="bg">
+            <form method="post" class="login-form p-5 rounded shadow mt-5 border border-1 border-light">
+                <h3 class="mb-4">Choose AD Network</h3>
+                {% for d in data %}
+                <a href="{{ url_for('.get_users',userprincipalname=d) }}">
+                    <div class="dnsname">
+                            {{d.upper()}}
+                    </div>
+                </a>                
+                {% endfor %}
+            </form>
+    </div>
+    
+    
+</body>
+</html>

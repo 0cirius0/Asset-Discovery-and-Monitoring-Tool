@@ -1,0 +1,73 @@
+
+    {% extends "base.html" %}  
+    {% block title %}Sites{% endblock %}
+    {% block css %}
+    <link rel="stylesheet" href="../static/sites.css">
+    {% endblock %}
+    
+{% block main %}
+
+
+<div class="bg">
+  <div class="container mt-5">
+    <table class="table table-hover table-responsive table-striped">
+      <thead>
+        <tr>
+          <th style="width: 10%;">Name</th>
+          <th style="text-align:center;width: 90%;">Vulns</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in data %}
+        <tr>
+          <td>{{d.subdomain}}</td>
+          <td >
+            {% for e in d.vulns %}
+        <button type="button" class="col-2 m-1 btn vulns {{e.severity}} border border-1 border-dark" data-bs-toggle="popover" title="Severity" data-bs-content="{{e.severity}}">{{e.name}}
+
+          <a class="btn btn-danger delete border border-1 border-dark ms-2">
+            <svg class="cross" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </a>
+        </button>
+        
+        {% endfor %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+  
+    </table>
+    <!-- <div class="p-2 shadow border border-outline-info rounded">
+      {% if data %}
+
+        {% for d in data %}
+            
+        <div class="row m-2">
+        <div class="col-3 subdomain border border-success rounded">
+          {{d.subdomain}}
+        </div>
+        
+      </div>
+    
+      {% endfor %}
+
+      {% endif %}
+
+    </div> -->
+
+
+  </div>
+</div>
+
+{% endblock %}
+
+    
+{% block script %}
+var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+  return new bootstrap.Popover(popoverTriggerEl)
+})
+{% endblock %}
+     

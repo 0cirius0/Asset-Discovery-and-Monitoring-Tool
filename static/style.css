@@ -1,0 +1,17 @@
+.setting{
+    visibility: hidden;
+    height: max-content;
+    width: max-content;
+}
+.navbar{
+    
+    box-shadow: 10px;
+
+}
+.form{
+    z-index: 999999;
+    width: 300px;
+}
+.set-item{
+    cursor: pointer;
+}
