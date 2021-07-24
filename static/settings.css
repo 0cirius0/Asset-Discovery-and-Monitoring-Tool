@@ -1,7 +1,6 @@
 .bg{
-    
     width: 100%;
-    min-height: 100vh;
+    height: 1200px;
     background: #c850c0;
     background: -webkit-linear-gradient(45deg,#4158d0,#c850c0);
     background: -o-linear-gradient(45deg,#4158d0,#c850c0);
@@ -37,4 +36,57 @@
 }
 .key{
     height: 40px;
+}
+.login-form{
+    width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 150px;
+    border: white;
+    border-style: solid;
+    border-width: 1px;
+    color:white;
+}
+.login-btn{
+    width: 100px;
+    background-color:  violet;
+}
+.login-btn:hover {
+    width: 100px;
+    background-color:  rgb(187, 99, 187);
+    border-width : 1px;
+    border-style: solid;
+    border: rgba(255, 255, 255, 0.89);
+}
+#cp-form{
+    width: 680px;
+}
+.keys{
+    width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.key{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(62, 95, 240, 0.699);
+    color: white;
+    border-radius: 2px;
+    width: 120px;
+    height: 30px;
+    margin: 5px;
+    padding: 8px;
+    padding-right: 0px;
+}
+.del-key{
+    height: 30px;
+    width: 30px;
+    margin: 0px;
+    padding: 0px;
+    border: 0;
+    position: relative;
+    background-color: rgba(255, 0, 0, 0.685);
+    color: white;
+    
 }

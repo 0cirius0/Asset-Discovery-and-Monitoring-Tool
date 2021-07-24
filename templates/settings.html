@@ -10,93 +10,108 @@
     <div class="bg">
 
         <div class="container">
-
-            <div class="card p-2 shadow">
                 
-                <form id="cp-form" class="ms-5 row align-items-center p-3" action="/change_password" method="post" style="width: 400px; height: 200px; background-color: white;">
-                    <h3 class="col-12 mb-2">Change Password</h3>
+                <form id="cp-form" class="rounded shadow p-5" action="/change_password" method="post" style="margin-left:auto;margin-right:auto;background-color: white;">
+                    <div class="row">  
+
+                        <h4 class="col-12 mb-3">Change Password</h4>
                     <input name="old_password" class="m-2 col-12 form-control p-2" type="password" placeholder="Old Password" />
                     <input name="new_password" class="m-2 col-6 form-control p-2" type="password" placeholder="New Password" />
                     <input name="cnf_new_password" class="m-2 col-6 form-control p-2" type="password" placeholder="Confirm Password" />
                     <input class="col-4 btn btn-success m-2 d-block" type="submit" value = "Proceed" />
                     
-                  </form>
-            </div>
 
+                    </div>
+                    
+                    
+                  </form>
             
-<br>
-              <hr>
+
 
               <form method="post" action="/get_credentials" class="login-form p-5 rounded shadow mt-5">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Domain Controller name</label>
-                    <input type="text" name="dc_name" id="dc_name" class="form-control">
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label for="username" class="form-label">Domain Controller name</label>
+                        <input type="text" name="dc_name" id="dc_name" class="form-control">
+                    </div>
+                    <div class="col-6 mb-3 hidden">
+                        <label for="username" class="form-label">SSH server</label>
+                        <input type="text" name="ssh" id="ssh" class="form-control">
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" name="username" id="username" class="form-control">
+                    </div>
+                    <div class="col-6 mb-3 hidden">
+                        <label for="username hidden" class="form-label">SSH username</label>
+                        <input type="text" name="ssh_user" id="ssh_user" class="form-control">
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="username" class="form-label">Password</label>
+                        <input type="text" name="password" id="password" class="form-control">
+                    </div>
+                    <div class="col-6 mb-3 hidden">
+                        <label for="username hidden" class="form-label">SSH Password</label>
+                        <input type="text" name="ssh_pass" id="ssh_pass" class="form-control">
+                    </div>
+                    <div class="col-12 mb-3 hidden">
+                        <label for="username hidden" class="form-label">SSH port</label>
+                        <input type="text" name="port" id="port" class="form-control">
+                    </div>
+                    <div class="col-12 ms-3 form-check mb-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onclick="show()">
+                        <label class="form-check-label" for="flexCheckDefault">
+                          Remote Network
+                        </label>
+                    </div>
+                    <div class="col-3 mb-3 mt-4 pe-0 me-0">
+                        <a href="/dashboard" class="btn login-btn m-1 me-0">Skip</a>
+                      </div>
+                     <div class="col-3 ps-0 ms-0 mb-3 mt-4 ">
+                        <input type="submit" class="btn ms-0 m-1 login-btn">
+                     </div>
                 </div>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" name="username" id="username" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Password</label>
-                    <input type="text" name="paasword" id="password" class="form-control">
-                </div>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onclick="show_cred()">
-                    <label class="form-check-label" for="flexCheckDefault">
-                      Remote Network
-                    </label>
-                </div>
-                <div class="mb-3 hidden">
-                    <label for="username" class="form-label">SSH server</label>
-                    <input type="text" name="ssh" id="ssh" class="form-control">
-                </div><div class="mb-3 hidden">
-                    <label for="username hidden" class="form-label">SSH username</label>
-                    <input type="text" name="ssh_user" id="ssh_user" class="form-control">
-                </div><div class="mb-3 hidden">
-                    <label for="username hidden" class="form-label">SSH Password</label>
-                    <input type="text" name="ssh_pass" id="ssh_pass" class="form-control">
-                </div>
-                <div class="mb-3 hidden">
-                    <label for="username hidden" class="form-label">SSH port</label>
-                    <input type="text" name="port" id="port" class="form-control">
-                </div>
+                
+                
+                
+                
+                
+               
                 
                 
     
                 
-                <div class="mb-3 mt-4 ">
-                   <input type="submit" class="btn btn-success login-btn">
-                </div>
             </form>
-            <br>
+     
+                <div class="keys mt-5 p-3 rounded shadow" style="background-color: white;" >
+                    <div class=" row p-4">
 
-            <hr>
-            <br>
-
-            <div class="card">
-                <div class="row m-3">
-                {% for d in data %}
+                        {% for d in data %}
 
                     
-                        <div class="key m-2 border d-flex justify-content-between border-1 btn-warning rounded" style="width: 170px;color:white;">{{d}}
+                        <div class="key">{{d}}
                             <form action="/remove_keyword" method="post">
                             <input name="keyword" type="text" value="{{d}}" style="display: none;" />
-                            <button class="btn btn-danger delete border border-1 border-dark" type="submit" >
-                                <svg class="cross" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                </svg>
+                            <button type="submit" class="del-key">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                  </svg>
                               </button>
                             </form>
                         </div>
                     
-                {% endfor %}
-                
+                        {% endfor %}
+
+                    </div>
+               
+                    <form class=" ms-2 row rounded p-2" action="/add_keyword" method="post" style="width:200px;">
+                        <input name="keyword" class="mb-2 col-12 form-control" type="text" placeholder="Enter key" />
+                        <input class="col-4 btn btn-success" type="submit" value = "Add" />
+                        
+                      </form>
             </div>
-            <form class=" ms-2 row rounded p-3" action="/add_keyword" method="post" style="width:200px;">
-                <input name="keyword" class="mb-2 col-12 form-control" type="text" placeholder="Enter key" />
-                <input class="col-4 btn btn-success" type="submit" value = "Add" />
-                
-              </form>
+            
             </div>
             
               

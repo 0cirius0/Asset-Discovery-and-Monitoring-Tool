@@ -10,28 +10,35 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&family=Syncopate&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../static/login.css">
+    <script>
+        window.onload = function(){
+            {% if error %}
+                alert("Invalid Password")
+                    
+                {% endif %}
+        }
+    </script>
 </head>
 <body>
-    
-    <div class="container mt-5">
+    <div class="bg">
+        <div class="container mt-5">
 
        
-        <form method="post" class="login-form pt-3 ps-5 pe-5 pb-5 rounded shadow">
-            <h3 class="mb-4">Dashboard Login</h3>
-            
-            <div class="">
-                <input type="password" name="password" id="pass" placeholder="Password" class="form-control">
-            </div>
-            {% if error %}
-            <div class="mb-3" style="color: red;width: 100%;">Invalid password</div>
+            <form method="post" class="login-form pt-3 ps-5 pe-5 pb-5 rounded shadow">
+                <h3 class="mt-2 mb-4" style="color:white;">Dashboard Login</h3>
                 
-            {% endif %}
-            <div class="mt-2">
-                <a href="/login"><input type="submit" class="btn btn-success login-btn"></a>
+                <div class="mb-3">
+                    <input type="password" name="password" id="pass" placeholder="Password" class="form-control">
+                </div>
                
-            </div>
-        </form>
+                <div class="mt-4">
+                    <a href="/login"><input type="submit" class="btn btn-success login-btn"></a>
+                   
+                </div>
+            </form>
+        </div>
     </div>
+    
     
 <script>
     

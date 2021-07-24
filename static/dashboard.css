@@ -1,30 +1,6 @@
-.login-form{
-    width: 680px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 150px;
-    border: white;
-    border-style: solid;
-    border-width: 1px;
-    color:white;
-}
-.login-btn{
-    width: 100px;
-    background-color:  violet;
-}
-.login-btn:hover {
-    width: 100px;
-    background-color:  rgb(187, 99, 187);
-    border-width : 1px;
-    border-style: solid;
-    border: rgba(255, 255, 255, 0.89);
-}
-.hidden{
-    display: none;
-}
 .bg{
     width: 100%;
-    min-height: 100vh;
+    height: 1000px;
     background: #c850c0;
     background: -webkit-linear-gradient(45deg,#4158d0,#c850c0);
     background: -o-linear-gradient(45deg,#4158d0,#c850c0);
@@ -38,4 +14,17 @@
     justify-content: center;
     flex-wrap: wrap;
     padding: 33px 30px;
+}
+.chart{
+    color: white;
+}
+#bar1Chart{
+    color: white;
+}
+.canvasjs-chart-canvas{
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.body{
+    width: 900px;
 }

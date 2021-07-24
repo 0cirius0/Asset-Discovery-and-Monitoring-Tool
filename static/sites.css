@@ -56,16 +56,17 @@ th{
 }
 
 .low{
-    background-color: rgba(206, 206, 55, 0.719);
+    background-color: #397e11;
     border-style: solid;
     border: black;
 
 }
 .medium{
-    background-color: orange;
+    background-color: #d1c03b
+    ;
     
 }
-.critical{background-color: rgb(255, 55, 55);
+.critical{background-color: #f3483f;
     border-style: solid;
     border: black;
 

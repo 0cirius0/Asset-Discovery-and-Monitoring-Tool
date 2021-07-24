@@ -216,7 +216,7 @@ def change_password():
     if chck==False:
         return render_template('changepassword.html',error="Incorrect old password.")
     hash_password(new_password)
-    return render_template('changepassword.html',error="Password changed successfully")
+    return redirect(url_for('logout'))
 
 #Get the List of all AD Networks for Computers
 @app.route('/get_dnshostname',methods=["GET"])
@@ -417,7 +417,7 @@ def default():
 @app.route('/logout',methods=['GET'])
 @token_required
 def logout():
-    resp = make_response(render_template('login.html'))
+    resp = make_response(redirect(url_for('login')))
     resp.delete_cookie('x-access-tokens')
     return resp
 

@@ -21,18 +21,26 @@
         {% for d in data %}
         <tr>
           <td>{{d.subdomain}}</td>
-          <td >
-            {% for e in d.vulns %}
-        <button type="button" class="col-2 m-1 btn vulns {{e.severity}} border border-1 border-dark" data-bs-toggle="popover" title="Severity" data-bs-content="{{e.severity}}">{{e.name}}
+          <td>
+            <div class="d-flex justify-content-start">
+              {% for e in d.vulns %}
+              {% if e.hide|string() == "False" %}
+              <button type="button" class="d-flex justify-content-between col-2 m-1 btn vulns {{e.severity}} border border-1 border-dark" data-bs-toggle="popover" title="Severity" data-bs-content="{{e.severity}}">{{e.name}}
 
-          <a class="btn btn-danger delete border border-1 border-dark ms-2">
-            <svg class="cross" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-            </svg>
-          </a>
-        </button>
+                <a href="{{ url_for('.delete_vuln',subdomain=d.subdomain,name_of_vuln=e.name) }}" style="color:black;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                  </svg>
+                </a>
+              </button>
+              {% endif %}
+      
         
         {% endfor %}
+
+            </div>
+            
           </td>
         </tr>
         {% endfor %}

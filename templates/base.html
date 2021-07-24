@@ -15,38 +15,8 @@
 </head>
 <body>
     
-    <div id="setting" class="setting p-2 border border-outline-warning rounded" style="background-color: white; position:absolute;right:30px;top: 50px;z-index: 999999;">
-        <div class="set-item add" onclick="show_add()" style="color:grey;">
-          Add key
-        </div>
-        <div class="set-item remove" onclick="show_remove()" style="color:grey;">
-          Remove key
-        </div>
-        <div class="set-item pass" onclick="show_cp()" style="color:grey;">
-          Change Password
-        </div>
-    </div>
-    <form id="cp-form" class="form row justify-content-center align-items-center border rounded p-3" action="/change_password" method="post" style="width: 400px; height: 200px; background-color: white; visibility:hidden;position: absolute;top:20%;left:40%;">
-        <input name="old_password" class="col-12 form-control" type="password" placeholder="old_password" />
-        <input name="new_password" class="col-12 form-control" type="password" placeholder="new_password" />
-        <input name="cnf_new_password" class="col-12 form-control" type="password" placeholder="cnf_new_password" />
-        <input class="col-4 btn btn-success m-1" type="submit" value = "change" />
-        <button class="col-4 btn btn-warning m-1" onclick="hide_cp()" >back</button>
-        
-      </form>
-     <form id="add-form" class="form row justify-content-center align-items-center border rounded p-3" action="/add_keyword" method="post" style="width: 400px; height: 200px; background-color: white; visibility:hidden;position: absolute;top:20%;left:40%;">
-            <input name="keyword" class="col-12 form-control" type="text" placeholder="Enter key" />
-            <input class="col-4 btn btn-success m-1" type="submit" value = "add" />
-            <button class="col-4 btn btn-warning m-1" onclick="hide_add()" >back</button>
-            
-          </form>
-          <form id="remove-form" class="form row justify-content-center align-items-center border rounded p-3" action="/remove_keyword" method="post" style="width: 400px; height: 200px; background-color: white; visibility:hidden;position: absolute;top:20%;left:40%;">
-            <input name="keyword" class="col-12 form-control" type="text" placeholder="Enter key" />
-            <input class="col-4 btn btn-success m-1" type="submit" value = "add" />
-            <button class="col-4 btn btn-warning m-1" onclick="hide_remove()" >back</button>
-            
-          </form>
-    
+   
+        <link rel="stylesheet" href="../static/dashboard.css">
         <nav class="navbar shadow navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
               <a class="navbar-brand" href="#">AMT</a>
