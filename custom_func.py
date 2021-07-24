@@ -13,7 +13,8 @@ from repeatclass import *
 import string,random 
 import jwt
 
-client=MongoClient('mongodb+srv://cirius:MVA1IzOr8GCYoSv8@cluster0.53e13.mongodb.net/?retryWrites=true&w=majority',tlsCAFile=certifi.where())
+
+client=MongoClient(glob.conn_str,tlsCAFile=certifi.where())
 
 def hash_password(password):
     #"""Hash a password for storing."""
@@ -30,7 +31,6 @@ def hash_password(password):
 def verify_password(stored_password, provided_password):
     #"""Verify a stored password against one provided by user"""
     salt = stored_password[:64]
-    print("das21312d")
     stored_password = stored_password[64:]
     pwdhash = hashlib.pbkdf2_hmac('sha512',
                                   provided_password.encode('utf-8'),
@@ -58,12 +58,10 @@ def get_hist_users():
         del all['_id']
         temp_char_list=all['memberof'].split(',')
         for word in temp_char_list:
-            print(word)
             if '=' in word:
                 ind=word.index('=')
                 if word[ind-1]=='N':
                     if word[ind+1:] in temp_list.keys():
-                        print("HERE")
                         temp_list[word[ind+1:]]+=1
                     else:
                         temp_list[word[ind+1:]]=1
@@ -145,7 +143,6 @@ def exploredevices(i):
             conn.insert_one(temp)
 
 def clearrecords(conn,identify,query,check):
-    print("Clearing",check)
     s=datetime.today().date()
     s=s-timedelta(days=30)
     t=datetime.strptime(query["lastlogon"][0].split(':')[3],"%d-%m-%Y").date()
@@ -214,7 +211,7 @@ def github_dork(org):
     s=datetime.today().date()
     search_url="https://api.github.com/search/code?per_page=500"
     location_url="https://api.github.com/repos/"
-    token="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"
+    token=os.getenv("GITHUB")
 
     query=conn.find_one({"container":True})
     conn.update_one({"container":True},{"$set":{"last":str(s)}},True)
@@ -271,7 +268,3 @@ def start():
     rt=RepeatedTimer(2,initiator)
     time.sleep(2)
     rt.interval=t
-
-
-def test():
-    print("Hoola")

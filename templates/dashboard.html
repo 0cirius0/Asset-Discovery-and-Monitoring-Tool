@@ -20,7 +20,7 @@ window.onload = function () {
 	animationEnabled: true,
 	theme: "light2", // "light1", "light2", "dark1", "dark2"
 	title:{
-		text: "Groups"
+		text: "No. of Groups in Networks"
 	},
 	
 	data: [{        
@@ -37,7 +37,7 @@ chart.render()
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
 	title:{
-		text: "Operating System"
+		text: "Operating System Distribution"
 	},
 	legend:{
 		cursor: "pointer",
@@ -51,11 +51,11 @@ var chart = new CanvasJS.Chart("chartContainer", {
       {% if graph[0]['Windows 10 Enterprise Evaluation'] %}
       { y: {{graph[0]['Windows 10 Enterprise Evaluation']}}, name: "Windows", exploded: true },
       {% endif %}
-      {% if graph[0]['Linux'] %}
-      { y: {{graph[0]['Linux']}}, name: "Linux" },
+      {% if graph[0]['linux'] %}
+      { y: {{graph[0]['linux']}}, name: "Linux" },
       {% endif %}
-      {% if graph[0]['MacOS'] %}
-      { y: {{graph[0]['MacOS']}}, name: "MacOS"},
+      {% if graph[0]['mac'] %}
+      { y: {{graph[0]['mac']}}, name: "MacOS"},
       {% endif %}
 			
 		]
@@ -69,7 +69,7 @@ var chart = new CanvasJS.Chart("chartContainer3", {
 	animationEnabled: true,
 	theme: "light2", // "light1", "light2", "dark1", "dark2"
 	title:{
-		text: "DNS"
+		text: "Domain Groups"
 	},
 	
 	data: [{        

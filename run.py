@@ -1,14 +1,15 @@
-from custom_func import *
 import glob
-from flask import Flask, jsonify, request, render_template, redirect, url_for, make_response
-
-
 glob.setglob()
+from custom_func import *
+from flask import Flask, jsonify, request, render_template, redirect, url_for, make_response
+from dotenv import load_dotenv
+
+load_dotenv()
+
 app = Flask(__name__)
-app.config['SECRET_KEY']='Th1s1ss3cr3t'
+app.config['SECRET_KEY']=os.getenv("PASS_KEY")
 
-client=MongoClient('mongodb+srv://cirius:MVA1IzOr8GCYoSv8@cluster0.53e13.mongodb.net/?retryWrites=true&w=majority',tlsCAFile=certifi.where())
-
+client=MongoClient(glob.conn_str,tlsCAFile=certifi.where())
 #Domain Name in explore functions
 
 def token_required(f):
@@ -438,7 +439,8 @@ def settings():
     return render_template('settings.html',data=temp_array)
 
 def apprun():
-    app.run(debug=True, host='0.0.0.0', port=5000, use_reloader=False)
+    cwd=os.getcwd()
+    app.run(debug=True, host='0.0.0.0', port=5000 , ssl_context=(cwd+'\\cert.pem', cwd+'\\key.pem'), use_reloader=False)
 
 if __name__ == '__main__':
     cwd=os.getcwd()
