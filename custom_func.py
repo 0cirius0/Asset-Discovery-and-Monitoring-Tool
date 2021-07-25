@@ -252,8 +252,9 @@ def initiator():
     conn=db.github
     query=conn.find_one({"container":True})
     org=query["org"]
-    #nuclei()
-    #github_dork(org)         #Release the chains
+    nuclei()
+    if(org is not None or org != "None"):
+        github_dork(org)         #Release the chains
     print("Exploring the Network")
     for i in range(len(glob.username)):
         exploredevices(i)

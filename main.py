@@ -87,10 +87,13 @@ def sites():
 def change():
     global rt
     t=int(request.args.get("gap"))
+    db=client.db
+    conn=db.github
+    temp_array=conn.find_one({'container':True})['keywords']
     if(rt.is_running):
         rt.interval=t
-        return "Changed"
-    return "Error"
+        return render_template('settings.html',data=temp_array)
+    return render_template('settings.html',data=temp_array,error="Some Error Occured")
 
 @app.route('/delete_github',methods=["POST"])
 @token_required
@@ -156,6 +159,11 @@ def get_credentials():
         glob.password.append(passw)
         glob.ssh_server.append(""),glob.ssh_password.append(""),glob.ssh_username.append(""),glob.ssh_port.append("")
     if(glob.ide==0):
+        db=client.db
+        conn=db.github
+        s=datetime.today().date()
+        keywords=["accesstoken","secretkey","passkey","api_token"]
+        conn.insert_one({"last":s,"container":True,"org":"None","keywords":keywords})
         glob.ide=1
         start()
     return redirect(url_for('dashboard'))
@@ -436,6 +444,16 @@ def settings():
     db=client.db
     all_github=db.github
     temp_array=all_github.find_one({'container':True})['keywords']
+    return render_template('settings.html',data=temp_array)
+
+@app.route('/settings/github/org',methods=['POST'])
+@token_required
+def setorg():
+    org=request.args.post('org')
+    db=client.db
+    conn=db.github
+    conn.update_one({"container":True},{"$set":{"org":org}},True)
+    temp_array=conn.find_one({'container':True})['keywords']
     return render_template('settings.html',data=temp_array)
 
 def apprun():

@@ -28,7 +28,14 @@ It is a click-to-run tool and is capable of doing most of its functions with min
 Now, just run the main.py and give required permissions and the tool is ready to get information about the organization to start the scans.
 To also monitor the user activity in the network, employ the logon/logoff scripts inside the agents directory using an AD group policy and the tool would start monitoring the activity of users and send all data to main script to process.
 
+##  Functionalities
+### Agents
+The agents come on form of logon/logoff scripts written in batch which collect data whenever a user logs into the device and send it to the Device on which the driver script is running. If the driver is running on the Domain Controller then there is no need to specify the IP of driver device but in other case it can be easily specified using the "arguments" option that is available in the AD Group Policy Tab.
+### Nuclei
+The tool integrates Nuclei framework to find vulnerabilites in the discovered subdomains. It updates the templates before every scan so that the new vulnerabilites does not get ignored.
 
 ## Working Screenshots
-
+![Dashboard](/Images/dashboard.png?raw=true)
+![Sites](/Images/site.png?raw=true)
+![GitHub](/Images/github.png?raw=true)
 
