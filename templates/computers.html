@@ -88,7 +88,7 @@
                       {% set y = 'True' %}
                       {% if x|string() == y|string() %}
               
-                        {% if d.curr_user_source_ip|string() != "null" %}
+                        {% if d.curr_user_source_ip|string() != "" %}
   
                         <div class="status" style="display:inline;">
                           &nbsp;
@@ -229,7 +229,7 @@
                     {% set y = 'True' %}
                     {% if x|string() == y|string() %}
             
-                      {% if d.curr_user_source_ip|string() != "null" %}
+                      {% if d.curr_user_source_ip|string() != "" %}
 
                       <div class="status" style="display:inline;">
                         &nbsp;
