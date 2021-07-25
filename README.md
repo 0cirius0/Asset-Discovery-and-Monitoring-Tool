@@ -9,6 +9,8 @@ The tool also finds external assets of the organization as well as possible thre
 The tool uses ldap3 python library to interact with the domain controller and get the required information, if the AD network is not inside current network, then the tool establsihes a SSH Tunnel to interact with the remote AD network.
 
 
+For external assets it uses sublist3r python module to find the subdomains owned by the organization and further uses Nuclei Framework from Project Discovery to find vulnerabilities on the discovered subdomains. The tool also makes use of GitHub API in a intelligent way to find any sensitive information getting leaked through the organization's GitHub repos.  
+
 Since the information taken by tool like Domain Controller creds' are very sensitive information, so they are never stored and live dynamically inside the program, although the information extracted is stored in the MONGO DB. 
 
 ## Installation
@@ -16,14 +18,16 @@ It is a click-to-run tool and is capable of doing most of its functions with min
 *   ```pip install -r requirements.txt```
 *   Create a .env file and populate it,
     ```
-    PASS_KEY=[RANDOM_64_DIGIT_STRING]
-    MONGODB=[MongoClient Connection String]
-    GITHUB=[GITHUB_API_KEY]
+    PASS_KEY="[RANDOM_64_DIGIT_STRING]"
+    MONGODB="[MongoClient_Connection_String]"
+    GITHUB="[GITHUB_API_KEY]"
     ```
 
 
 Now, just run the main.py and give required permissions and the tool is ready to get information about the organization to start the scans.
 To also monitor the user activity in the network, employ the logon/logoff scripts inside the agents directory using an AD group policy and the tool would start monitoring the activity of users and send all data to main script to process.
 
+
+## Working Screenshots
 
 
