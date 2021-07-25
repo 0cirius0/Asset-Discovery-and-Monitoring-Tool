@@ -3,6 +3,7 @@ glob.setglob()
 from custom_func import *
 from flask import Flask, jsonify, request, render_template, redirect, url_for, make_response
 from dotenv import load_dotenv
+from datetime import datetime
 
 load_dotenv()
 
@@ -162,7 +163,8 @@ def get_credentials():
     if(glob.ide==0):
         db=client.db
         conn=db.github
-        s=datetime.today().date()
+        s=str(datetime.today().date())
+        print(s)
         keywords=["accesstoken","secretkey","passkey","api_token"]
         conn.insert_one({"last":s,"container":True,"org":"None","keywords":keywords})
         glob.ide=1
