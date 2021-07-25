@@ -38,6 +38,13 @@ A custom function which makes GitHub dorks and then uses them to find any sensit
 ### Secure WebApp
 The webapp starts inside the network and ask for permission to create firewall rule for the port to be accessible inside the network. The webapp uses JWT authentication to prevent any unauthorised person in the network to access the webapp.
 
+## Collected Data
+Only useful data is collected which might help in preventing any attack vector as well as narrowing down the devices if compromised.
+
+
+In case of devices the data stored contains but not limited to the version of OS,last patch/hotfix,servicepack which if old enough might contain vulnerabilities, so giving chance to the admin to always be aware of the systems that are not updated.
+
+In case of monitoring, the devices accessed by user along with the IP and MAC, if the user was using RDP to access are stored so that if any user's creds get compromised then it can devices accessed by attacker can be easily narrowed down and checked manually for any malicious files.
 ## Working Screenshots
 ![Dashboard](/Images/dashboard.png?raw=true)
 ![Sites](/Images/sites.png?raw=true)
