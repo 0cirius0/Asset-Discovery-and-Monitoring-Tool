@@ -14,7 +14,8 @@ For external assets it uses sublist3r python module to find the subdomains owned
 Since the information taken by tool like Domain Controller creds' are very sensitive information, so they are never stored and live dynamically inside the program, although the information extracted is stored in the MONGO DB. 
 
 ## Installation
-It is a click-to-run tool and is capable of doing most of its functions with minimal user intercation. Before running the tool install all the required modules using 
+It is a click-to-run tool and is capable of doing most of its functions with minimal user intercation. Before running the tool install all the required modules,
+*   Create a virtual environment. 
 *   ```pip install -r requirements.txt```
 *   Create a .env file and populate it,
     ```
