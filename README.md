@@ -52,3 +52,5 @@ In case of monitoring, the devices accessed by user along with the IP and MAC, i
 ![Computers](/Images/computer_monitor.png?raw=true)
 ![Info](/Images/info.png?raw=true)
 
+## Video Explanation
+![YouTube](https://www.youtube.com/watch?v=Jy4RYCCsZeY)
