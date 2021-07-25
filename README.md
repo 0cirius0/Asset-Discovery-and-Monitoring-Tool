@@ -33,6 +33,10 @@ To also monitor the user activity in the network, employ the logon/logoff script
 The agents come on form of logon/logoff scripts written in batch which collect data whenever a user logs into the device and send it to the Device on which the driver script is running. If the driver is running on the Domain Controller then there is no need to specify the IP of driver device but in other case it can be easily specified using the "arguments" option that is available while creating AD Group Policy for the scripts.
 ### Nuclei
 The tool integrates Nuclei framework to find vulnerabilites in the discovered subdomains. It updates the templates before every scan so that the new vulnerabilites does not get ignored.
+### GitHub Leaks
+A custom function which makes GitHub dorks and then uses them to find any sensitive information in the organizations's repositories. The tool has accesskey,passkey,secretkey,api_token by default but more keywords can be added and previous one removed from the webapp.
+### Secure WebApp
+The webapp starts inside the network and ask for permission to create firewall rule for the port to be accessible inside the network. The webapp uses JWT authentication to prevent any unauthorised person in the network to access the webapp.
 
 ## Working Screenshots
 ![Dashboard](/Images/dashboard.png?raw=true)

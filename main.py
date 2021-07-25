@@ -82,18 +82,19 @@ def sites():
 
     return render_template('sites.html',data=temp_list)
 
-@app.route("/settings/interval/change")
+@app.route("/settings/interval/change",methods=['POST'])
 @token_required
 def change():
     global rt
-    t=int(request.args.get("gap"))
+    t=int(request.args.post("gap"))
     db=client.db
     conn=db.github
     temp_array=conn.find_one({'container':True})['keywords']
     if(rt.is_running):
         rt.interval=t
-        return render_template('settings.html',data=temp_array)
-    return render_template('settings.html',data=temp_array,error="Some Error Occured")
+        return redirect(url_for('settings'),code=306)
+    return redirect(url_for('settings'),code=307)
+
 
 @app.route('/delete_github',methods=["POST"])
 @token_required
@@ -454,7 +455,7 @@ def setorg():
     conn=db.github
     conn.update_one({"container":True},{"$set":{"org":org}},True)
     temp_array=conn.find_one({'container':True})['keywords']
-    return render_template('settings.html',data=temp_array)
+    return redirect(url_for('settings'),code=308)
 
 def apprun():
     cwd=os.getcwd()
