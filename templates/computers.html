@@ -5,10 +5,58 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 {% endblock %}
 {% block main %}
   <div class="table-container">
     <div class="container mt-4">
+      <dl class="dropdown"> <dt>
+        <a class="pt-2">
+          <span class="hida">Select Groups</span>    
+          <p class="multiSel"></p>  
+        </a>
+        </dt>
+    
+        <dd>
+            <div class="mutliSelect" style="display: block;">
+                
+              {% if members %}
+            
+              <form method="post">
+    
+                <ul class="row ps-3">
+                    
+                    <button type="submit" class="col-12 p-1 btn btn-info ms-3 mt-2 mb-2" style="width:50px;height:30px;color:white; " value="Filter">Apply</button>
+                
+                  <div>
+                            {% for d in members %}
+  
+                        
+                        <li>
+                          {% if checked.d %}
+                          <input type="checkbox" id="{{d}}" value="{{d}}" name="hello" checked />
+                          <label for="{{d}}">{{d}}</label>
+  
+                          {% else %}
+                          <input type="checkbox" id="{{d}}" value="{{d}}" name="hello" />
+                          <label for="{{d}}">{{d}}</label>
+                          {% endif %}
+  
+                        </li>
+  
+                        {% endfor %}
+                  </div>
+                  
+                
+              </ul>
+              </form>
+              {% endif %}
+                
+            </div>
+        </dd>
+    </dl>
+      
       <div class="tabs mb-3">
           <div id="win" class="tab p-1" onclick="show('windows')" style="border-radius: 5px;color: white;">Windows</div>
           <div id="lin" class="tab p-1" onclick="show('linux')" style="border-radius: 5px;background-color:white;color: black;">Linux</div>
@@ -34,7 +82,20 @@
             {% if data %}
               {% for d in data['Windows 10 Enterprise Evaluation'] %}
                   <tr class="{{d.monitor}}" onclick="show_sub('{{d['ip']}}')" style="position: relative;">
-                    <td class="column-2">{{d['ip']}}</td>
+                    <td class="column-2">{{d['ip']}}
+
+                      {% set x = d["monitor"] %}
+                      {% set y = 'True' %}
+                      {% if x|string() == y|string() %}
+              
+                        {% if d.curr_user_source_ip|string() != "null" %}
+  
+                        <div class="status" style="display:inline;">
+                          &nbsp;
+                        </div>
+                        {% endif %}
+                      {% endif %}
+                    </td>
                     <td class="column-2">{{d["dnshostname"]}}</td>
                     <td class="column-2">
                       
@@ -162,7 +223,20 @@
           {% if data %}
             {% for d in data['linux'] %}
                 <tr onclick="show_sub('{{d['ip']}}')" style="position: relative;">
-                  <td class="column-2">{{d['ip']}}</td>
+                  <td class="column-2">{{d['ip']}}
+
+                    {% set x = d["monitor"] %}
+                    {% set y = 'True' %}
+                    {% if x|string() == y|string() %}
+            
+                      {% if d.curr_user_source_ip|string() != "null" %}
+
+                      <div class="status" style="display:inline;">
+                        &nbsp;
+                      </div>
+                      {% endif %}
+                    {% endif %}
+                  </td>
                   <td class="column-2">{{d["dnshostname"]}}</td>
                   <td class="column-2">{{d["memberof"]}}</td>
                   <td class="column-2">{{d["lastlogon_d"]}}</td>
@@ -283,7 +357,20 @@
         {% if data %}
           {% for d in data['mac'] %}
               <tr onclick="show_sub('{{d['ip']}}')" style="position: relative;">
-                <td class="column-2">{{d['ip']}}</td>
+                <td class="column-2">{{d['ip']}}
+
+                  {% set x = d["monitor"] %}
+                  {% set y = 'True' %}
+                  {% if x|string() == y|string() %}
+          
+                    {% if d.curr_user_source_ip|string() != "null" %}
+
+                    <div class="status" style="display:inline;">
+                      &nbsp;
+                    </div>
+                    {% endif %}
+                  {% endif %}
+                </td>
                 <td class="column-2">{{d["dnshostname"]}}</td>
                 <td class="column-2">{{d["memberof"]}}</td>
                 <td class="column-2">{{d["lastlogon_d"]}}</td>
@@ -473,4 +560,43 @@
             
             }
           }
+
+         
+
+$(".dropdown dt a").on('click', function () {
+    $(".dropdown dd ul").slideToggle('fast');
+});
+
+$(".dropdown dd ul li a").on('click', function () {
+    $(".dropdown dd ul").hide();
+});
+
+function getSelectedValue(id) {
+    return $("#" + id).find("dt a span.value").html();
+}
+
+$(document).bind('click', function (e) {
+    var $clicked = $(e.target);
+    if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
+});
+
+
+$('.mutliSelect input[type="checkbox"]').on('click', function () {
+
+    var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
+        title = $(this).val() + ",";
+
+    if ($(this).is(':checked')) {
+        var html = '<span title="' + title + '">' + title + '</span>';
+        $('.multiSel').append(html);
+        $(".hida").hide();
+    } else {
+        $('span[title="' + title + '"]').remove();
+        var ret = $(".hida");
+        $('.dropdown dt a').append(ret);
+
+    }
+});
+
+
   {% endblock %}

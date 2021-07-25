@@ -86,14 +86,14 @@ def sites():
 @token_required
 def change():
     global rt
-    t=int(request.args.post("gap"))
+    t=int(request.form["gap"])
     db=client.db
     conn=db.github
     temp_array=conn.find_one({'container':True})['keywords']
     if(rt.is_running):
         rt.interval=t
-        return redirect(url_for('settings'),code=306)
-    return redirect(url_for('settings'),code=307)
+        return redirect(url_for('settings',code=306))
+    return redirect(url_for('settings',code=307))
 
 
 @app.route('/delete_github',methods=["POST"])
@@ -263,70 +263,203 @@ def get_dnshostname_users():
 @app.route('/get_users/<string:userprincipalname>',methods=["GET","POST"]) 
 @token_required
 def get_users(userprincipalname):
-    db=client.db
-    all_users=db.users
-    temp_list=[]
-    for all in all_users.find():
-        del all['_id']
-        #print(type(all['memberof']))
-        #print(all['memberof'])
-        temp_char_list=all['memberof'].split(',')
-        new_temp_list=[]
-        for word in temp_char_list:
-            #print(word)
-            if '=' in word:
-                ind=word.index('=')
-                if word[ind-1]=='N':
-                    if word[ind+1:] not in new_temp_list:
-                        if word[ind+1:]=="Users":
-                            continue
-                        new_temp_list.append(word[ind+1:])
-                    #print(word[ind+1:])
-        del all['memberof']
-        all['memberof']=new_temp_list
-        #print(all)
-        if 'lastlogon' in all.keys():
-            all['monitor']=True
-        else:
-            all['monitor']=False
-        if userprincipalname in all['userprincipalname']:
-            temp_list.append(all)
-    #return jsonify(temp_list)
-    return render_template('users.html',data=temp_list)
+    #userprincipalname=request.form['userprincipalname']
+    if request.method=="GET":
+
+        db=client.db
+        all_users=db.users
+        temp_list=[]
+        member_list=[]
+        for all in all_users.find():
+            del all['_id']
+            #print(type(all['memberof']))
+            #print(all['memberof'])
+            temp_char_list=all['memberof'].split(',')
+            new_temp_list=[]
+            for word in temp_char_list:
+                #print(word)
+                if '=' in word:
+                    ind=word.index('=')
+                    if word[ind-1]=='N':
+                        if word[ind+1:] not in new_temp_list:
+                            if word[ind+1:]=="Users":
+                                continue
+                            new_temp_list.append(word[ind+1:])
+                        #print(word[ind+1:])
+            del all['memberof']
+            all['memberof']=new_temp_list
+            for member in all['memberof']:
+                if member not in member_list:
+                    member_list.append(member)
+            #print(all)
+            if 'lastlogon' in all.keys():
+                all['monitor']=True
+            else:
+                all['monitor']=False
+            if userprincipalname in all['userprincipalname']:
+                temp_list.append(all)
+        #return jsonify(temp_list)
+        to_get=[]
+        return render_template('users.html',data=temp_list,members=member_list,host_name=userprincipalname,checked=to_get)
+    else:
+        db=client.db
+        all_users=db.users
+        member_list=[]
+        for all in all_users.find():
+            del all['_id']
+            #print(type(all['memberof']))
+            #print(all['memberof'])
+            temp_char_list=all['memberof'].split(',')
+            new_temp_list=[]
+            for word in temp_char_list:
+                #print(word)
+                if '=' in word:
+                    ind=word.index('=')
+                    if word[ind-1]=='N':
+                        if word[ind+1:] not in new_temp_list:
+                            if word[ind+1:]=="Users":
+                                continue
+                            new_temp_list.append(word[ind+1:])
+                        #print(word[ind+1:])
+            del all['memberof']
+            all['memberof']=new_temp_list
+            for member in all['memberof']:
+                if member not in member_list:
+                    member_list.append(member)
+
+        to_get=request.form.getlist("hello")
+        #for member in member_list:
+            #if request.form[member]==True:
+                #to_get.append(member)
+
+        #userprincipalname=request.form['userprincipalname']
+        temp_list=[]
+        for all in all_users.find():
+            del all['_id']
+            if userprincipalname in all['userprincipalname']:
+                temp_char_list=all['memberof'].split(',')
+                new_temp_list=[]
+                for word in temp_char_list:
+                    #print(word)
+                    if '=' in word:
+                        ind=word.index('=')
+                        if word[ind-1]=='N':
+                            if word[ind+1:] not in new_temp_list:
+                                if word[ind+1:]=="Users":
+                                    continue
+                                new_temp_list.append(word[ind+1:])
+                            #print(word[ind+1:])
+                del all['memberof']
+                all['memberof']=new_temp_list
+                if len(to_get)==0:
+                    temp_list.append(all)
+                for word in to_get:
+                    #print(word)
+                    if word in all['memberof']:
+                        temp_list.append(all)
+                        break
+
+        return render_template('users.html',data=temp_list,members=member_list,host_name=userprincipalname,checked=to_get)
 
 ## NEW ROUTES ADDED AFTER MERGING
 @app.route('/get_computers_os/<string:dnshostname>', methods=["GET"]) ## /computers aur get_computers waali use nhi krenge then
 @token_required
 def get_computers_os(dnshostname):
     #dnshostname=request.form['dnshostname']
-    db=client.db
-    all_computers=db.computers
-    temp_list={}
-    for all in all_computers.find():
-        del all['_id']
-        temp_char_list=[]
-        temp_char_list=all['memberof'].split(',')
-        new_temp_list=[]
-        for word in temp_char_list:
-            #print(word)
-            if '=' in word:
-                ind=word.index('=')
-                if word[ind-1]=='N':
-                    if word[ind+1:] not in new_temp_list:
-                        if word[ind+1:]=="Computer":
-                            continue
-                        new_temp_list.append(word[ind+1:])
-                    #print(word[ind+1:])
-        del all['memberof']
-        all['memberof']=new_temp_list
-        if(dnshostname in all['dnshostname']):
-            if all['operatingsystem'] in temp_list.keys():
-                temp_list[all['operatingsystem']].append(all)
-            else:
+    if request.method=="GET":
+
+        db=client.db
+        all_computers=db.computers
+        temp_list={}
+        member_list=[]
+        for all in all_computers.find():
+            del all['_id']
+            temp_char_list=[]
+            temp_char_list=all['memberof'].split(',')
+            new_temp_list=[]
+            for word in temp_char_list:
+                #print(word)
+                if '=' in word:
+                    ind=word.index('=')
+                    if word[ind-1]=='N':
+                        if word[ind+1:] not in new_temp_list:
+                            if word[ind+1:]=="Computer":
+                                continue
+                            new_temp_list.append(word[ind+1:])
+                        #print(word[ind+1:])
+            del all['memberof']
+            all['memberof']=new_temp_list
+            for member in all['memberof']:
+                if member not in member_list:
+                    member_list.append(member)
+            if(dnshostname in all['dnshostname']):
+                if all['operatingsystem'] in temp_list.keys():
+                    temp_list[all['operatingsystem']].append(all)
+                else:
+                    new_temp_list=[]
+                    new_temp_list.append(all)
+                    temp_list[all['operatingsystem']]=new_temp_list
+        #print(temp_list)
+        #print(members)
+        to_get=[]
+        return render_template('computers.html',data=temp_list,members=member_list,host_name=dnshostname,checked=to_get)
+    else:
+        db=client.db
+        all_computers=db.computers
+        member_list=[]
+        for all in all_computers.find():
+            del all['_id']
+            temp_char_list=[]
+            temp_char_list=all['memberof'].split(',')
+            new_temp_list=[]
+            for word in temp_char_list:
+                #print(word)
+                if '=' in word:
+                    ind=word.index('=')
+                    if word[ind-1]=='N':
+                        if word[ind+1:] not in new_temp_list:
+                            if word[ind+1:]=="Computer":
+                                continue
+                            new_temp_list.append(word[ind+1:])
+                        #print(word[ind+1:])
+            del all['memberof']
+            all['memberof']=new_temp_list
+            for member in all['memberof']:
+                if member not in member_list:
+                    member_list.append(member)
+
+        to_get=request.form.getlist("hello")
+        #for member in member_list:
+        #   if request.form[member]==True:
+        #      to_get.append(member)
+        #dnshostname=request.form['dnshostname']
+        temp_list=[]
+
+        for all in all_computers.find():
+            del all['_id']
+            if dnshostname in all['dnshostname']:
+                temp_char_list=[]
+                temp_char_list=all['memberof'].split(',')
                 new_temp_list=[]
-                new_temp_list.append(all)
-                temp_list[all['operatingsystem']]=new_temp_list
-    return render_template('computers.html',data=temp_list)
+                for word in temp_char_list:
+                    #print(word)
+                    if '=' in word:
+                        ind=word.index('=')
+                        if word[ind-1]=='N':
+                            if word[ind+1:] not in new_temp_list:
+                                if word[ind+1:]=="Computer":
+                                    continue
+                                new_temp_list.append(word[ind+1:])
+                            #print(word[ind+1:])
+                del all['memberof']
+                all['memberof']=new_temp_list
+                if len(to_get)==0:
+                    temp_list.append(all)
+                for word in to_get:
+                    if word in all['memberof']:
+                        temp_list.append(all)
+                        break
+        return render_template('computers.html',data=temp_list,host_name=dnshostname,checked=to_get,members=member_list)
 
 @app.route('/get_memberof_users',methods=['GET'])
 @token_required
@@ -450,12 +583,12 @@ def settings():
 @app.route('/settings/github/org',methods=['POST'])
 @token_required
 def setorg():
-    org=request.args.post('org')
+    org=request.form['org']
     db=client.db
     conn=db.github
     conn.update_one({"container":True},{"$set":{"org":org}},True)
     temp_array=conn.find_one({'container':True})['keywords']
-    return redirect(url_for('settings'),code=308)
+    return redirect(url_for('settings',code=308))
 
 def apprun():
     cwd=os.getcwd()

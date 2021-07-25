@@ -82,3 +82,76 @@ th{
     cursor: pointer;
 }
 
+
+.dropdown dd, .dropdown dt {
+    margin:0px;
+    padding:0px;
+}
+.dropdown ul {
+    margin:0px;
+    padding:0px;
+}
+.dropdown dd {
+    position:relative;
+    margin:0px;
+    padding:0px;
+}
+.dropdown a, .dropdown a:visited {
+    color:#fff;
+    text-decoration:none;
+    outline:none;
+    margin:0px;
+    padding:0px;
+    min-height: 30px;
+    border-radius: 3px;
+}
+.dropdown dt a {
+    background-color:#4F6877;
+    display:block;
+    overflow: hidden;
+    width:100%;
+    margin:0px;
+    padding:0px;
+}
+.dropdown dt a span, .multiSel span {
+    cursor:pointer;
+    margin:0px;
+    padding:5px 10px;
+}
+.dropdown dd ul {
+    background-color: #4F6877;
+    top:1px;
+    color:#fff;
+    display:none;
+    width:100%;
+    list-style:none;
+    height: 100px;
+    overflow: auto;
+    margin:0px;
+    padding:0px;
+}
+.dropdown span.value {
+    display:none;
+    border-radius: 3px;
+    margin:0px;
+    padding:0px;
+}
+.dropdown dd ul li a {
+    display:block;
+    margin:0px;
+    padding:0px;
+}
+.dropdown dd ul li a:hover {
+    background-color:#fff;
+    margin:0px;
+    padding:0px;
+}
+.status{
+
+    background-color: rgb(16, 207, 16);
+    border-radius: 4px;
+    width: 9px;
+    height: 9px;
+    display: block;
+
+}

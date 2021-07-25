@@ -1,6 +1,8 @@
 .bg{
+    top: 0px;
+    position: fixed;
     width: 100%;
-    height: 1200px;
+    height: 100%;
     background: #c850c0;
     background: -webkit-linear-gradient(45deg,#4158d0,#c850c0);
     background: -o-linear-gradient(45deg,#4158d0,#c850c0);
@@ -14,6 +16,7 @@
     justify-content: center;
     flex-wrap: wrap;
     padding: 33px 30px;
+    z-index: -99999999;
 }
 
 .hidden{
@@ -48,10 +51,12 @@
     color:white;
 }
 .login-btn{
+    border: none;
     width: 100px;
     background-color:  violet;
 }
 .login-btn:hover {
+    border: none;
     width: 100px;
     background-color:  rgb(187, 99, 187);
     border-width : 1px;

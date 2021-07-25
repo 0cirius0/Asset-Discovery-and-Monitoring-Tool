@@ -5,11 +5,19 @@
 {% block css %}
 <link rel="stylesheet" href="../static/style.css">
 <link rel="stylesheet" href="../static/settings.css">
+<script>
+    window.onload = function() {
+            {% if error %}
+            alert({{error}})
+            {% endif %}
+    }
+</script>
 {% endblock %}
 {% block main %}
     <div class="bg">
+    </div>
 
-        <div class="container">
+        <div class="container mt-5">
                 
                 <form id="cp-form" class="rounded shadow p-5" action="/change_password" method="post" style="margin-left:auto;margin-right:auto;background-color: white;">
                     <div class="row">  
@@ -18,7 +26,7 @@
                     <input name="old_password" class="m-2 col-12 form-control p-2" type="password" placeholder="Old Password" />
                     <input name="new_password" class="m-2 col-6 form-control p-2" type="password" placeholder="New Password" />
                     <input name="cnf_new_password" class="m-2 col-6 form-control p-2" type="password" placeholder="Confirm Password" />
-                    <input class="col-4 btn btn-success m-2 d-block" type="submit" value = "Proceed" />
+                    <input class="col-4 btn login-btn m-2 d-block" type="submit" value = "Proceed" />
                     
 
                     </div>
@@ -28,7 +36,7 @@
             
 
 
-              <form method="post" action="/get_credentials" class="login-form p-5 rounded shadow mt-5">
+              <form method="post" action="/get_credentials" class="login-form p-5 rounded shadow mt-5" style="background-color:white;color:black;">
                 <div class="row">
                     <div class="col-6 mb-3">
                         <label for="username" class="form-label">Domain Controller name</label>
@@ -65,10 +73,10 @@
                         </label>
                     </div>
                     <div class="col-3 mb-3 mt-4 pe-0 me-0">
-                        <a href="/dashboard" class="btn login-btn m-1 me-0">Skip</a>
+                        <a href="/dashboard" class="btn btn login-btn m-1 me-0">Skip</a>
                       </div>
                      <div class="col-3 ps-0 ms-0 mb-3 mt-4 ">
-                        <input type="submit" class="btn ms-0 m-1 login-btn">
+                        <input type="submit" class="btn ms-0 m-1 btn login-btn">
                      </div>
                 </div>
                 
@@ -84,6 +92,7 @@
             </form>
      
                 <div class="keys mt-5 p-3 rounded shadow" style="background-color: white;" >
+                    <h4 class="col-12 m-3">Keys</h4>
                     <div class=" row p-4">
 
                         {% for d in data %}
@@ -107,24 +116,54 @@
                
                     <form class=" ms-2 row rounded p-2" action="/add_keyword" method="post" style="width:200px;">
                         <input name="keyword" class="mb-2 col-12 form-control" type="text" placeholder="Enter key" />
-                        <input class="col-4 btn btn-success" type="submit" value = "Add" />
+                        <input class="col-4 btn login-btn" type="submit" value = "Add" />
                         
                       </form>
+
+
             </div>
             
+            
             </div>
+            {% if keys %}
+            {{keys}}
+            {% endif %}
+            <form id="cp-form" class=" mt-5 rounded shadow p-5" action="/settings/interval/change" method="post" style="margin-left:auto;margin-right:auto;background-color: white;">
+                <div class="row">  
+                <h4 class="col-12 mb-3">Change Scan Interval</h4>
+                <input name="gap" class="m-2 col-12 form-control p-2" type="text" placeholder="New Interval" />
+                <input class="col-4 btn login-btn m-2 d-block" type="submit" value = "Update" />
+                
+
+                </div>
+                
+                
+              </form>
+
+              <form id="cp-form" class=" mt-5 rounded shadow p-5" action="/settings/github/org" method="post" style="margin-left:auto;margin-right:auto;background-color: white;">
+                <div class="row">  
+                <h4 class="col-12 mb-3">Github Organisation</h4>
+                <input name="org" class="m-2 col-12 form-control p-2" type="text" placeholder="Organisation" />
+                <input class="col-4 btn login-btn m-2 d-block" type="submit" value = "Update" />
+                
+
+                </div>
+                
+                
+              </form>
             
               
 
 
         </div>
-    </div>
 {% endblock %}
 {% block script %}
-function show_cred(){
+function show(){
+    var lf = document.getElementsByClassName("login-form")
     var cb = document.getElementById("flexCheckDefault")
     var ar = document.getElementsByClassName("hidden")
 
+    lf[0].style.width = "680px"
     if(cb.checked == true){
         for(var i = 0 ; i < ar.length ; i++ ){
             var temp = ar[i]
@@ -138,4 +177,5 @@ function show_cred(){
         }
     }
 }
+
 {% endblock %}

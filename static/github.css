@@ -89,3 +89,6 @@ form{
     display: flex;
     justify-content: end;
 }
+a{
+    text-decoration: none;
+}
