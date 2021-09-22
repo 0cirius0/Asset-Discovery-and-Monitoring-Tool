@@ -5,6 +5,7 @@ import json
 import os
 import init
 
+
 def nuclei():
     client=MongoClient(init.conn_str,tlsCAFile=certifi.where())
     db=client.db
