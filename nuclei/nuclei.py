@@ -3,10 +3,10 @@ from pymongo import MongoClient
 import subprocess
 import json
 import os
+import init
 
 def nuclei():
-    client=MongoClient('mongodb+srv://cirius:MVA1IzOr8GCYoSv8@cluster0.53e13.mongodb.net/db?retryWrites=true&w=majority',tlsCAFile=certifi.where())
-
+    client=MongoClient(init.conn_str,tlsCAFile=certifi.where())
     db=client.db
     conn=db.sites
 

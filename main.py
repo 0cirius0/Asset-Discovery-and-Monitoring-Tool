@@ -1,6 +1,6 @@
-import glob
-glob.setglob()
-from custom_func import *
+import init
+init.setglob()
+from driverFunctions import *
 from flask import Flask, jsonify, request, render_template, redirect, url_for, make_response
 from dotenv import load_dotenv
 from datetime import datetime
@@ -10,7 +10,7 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY']=os.getenv("PASS_KEY")
 
-client=MongoClient(glob.conn_str,tlsCAFile=certifi.where())
+client=MongoClient(init.conn_str,tlsCAFile=certifi.where())
 #Domain Name in explore functions
 
 def token_required(f):
@@ -145,10 +145,10 @@ def get_credentials():
             tunnel.stop() 
         except:
             return render_template('credentials.html',error="Credentials did not match.")
-        glob.ldap_servers.append(dc_name)
-        glob.username.append(user)
-        glob.password.append(passw)
-        glob.ssh_server.append(ssh),glob.ssh_password.append(ssh_pass),glob.ssh_username.append(ssh_user),glob.ssh_port.append(port)       
+        init.ldap_servers.append(dc_name)
+        init.username.append(user)
+        init.password.append(passw)
+        init.ssh_server.append(ssh),init.ssh_password.append(ssh_pass),init.ssh_username.append(ssh_user),init.ssh_port.append(port)       
     
     else:
         try:
@@ -156,18 +156,18 @@ def get_credentials():
             query=Connection(server,dc1+'\\'+user,passw,auto_bind=True)
         except:
             return render_template('credentials.html',error="Credentials did not match.")
-        glob.ldap_servers.append(dc_name)
-        glob.username.append(user)
-        glob.password.append(passw)
-        glob.ssh_server.append(""),glob.ssh_password.append(""),glob.ssh_username.append(""),glob.ssh_port.append("")
-    if(glob.ide==0):
+        init.ldap_servers.append(dc_name)
+        init.username.append(user)
+        init.password.append(passw)
+        init.ssh_server.append(""),init.ssh_password.append(""),init.ssh_username.append(""),init.ssh_port.append("")
+    if(init.ide==0):
         db=client.db
         conn=db.github
         s=str(datetime.today().date())
         print(s)
         keywords=["accesstoken","secretkey","passkey","api_token"]
         conn.insert_one({"last":s,"container":True,"org":"None","keywords":keywords})
-        glob.ide=1
+        init.ide=1
         start()
     return redirect(url_for('dashboard'))
 
@@ -594,7 +594,7 @@ def setorg():
 
 def apprun():
     cwd=os.getcwd()
-    app.run(debug=True, host='0.0.0.0', port=5000 , ssl_context=(cwd+'\\cert.pem', cwd+'\\key.pem'), use_reloader=False)
+    app.run(debug=True, host='0.0.0.0', port=5000 , ssl_context=(cwd+'\\SSL Certificate\\cert.pem', cwd+'\\SSL Certificate\\key.pem'), use_reloader=False)
 
 if __name__ == '__main__':
     cwd=os.getcwd()
@@ -605,7 +605,7 @@ if __name__ == '__main__':
     if(pr.returncode==1):
         input("The tool requires port 5000 to be open inside the domain network.A Prompt would ask for adminsitrator privileges to create a rule in firewall for the port.\nPress Enter to continue...")
         print("Creating the rule in firewall")
-        subprocess.Popen("powershell -noprofile -command \"&{Start-Process powershell -Verb Runas -ArgumentList '-noprofile -executionpolicy bypass -file "+cwd+"\\create_rule.ps1'}\"",shell=True)    
+        subprocess.Popen("powershell -noprofile -command \"&{Start-Process powershell -Verb Runas -ArgumentList '-noprofile -executionpolicy bypass -file "+cwd+"\\createRule.ps1'}\"",shell=True)    
     
     t=threading.Thread(target=apprun, daemon=True).start()
     try:

@@ -7,14 +7,14 @@ from functools import wraps
 from bson import ObjectId
 import hashlib, binascii
 from werkzeug.security import generate_password_hash, check_password_hash
-from nuclei import *
-import glob
-from repeatclass import *
+from Nuclei.nuclei import *
+import init
+from timerClass import *
 import string,random 
 import jwt
 
 
-client=MongoClient(glob.conn_str,tlsCAFile=certifi.where())
+client=MongoClient(init.conn_str,tlsCAFile=certifi.where())
 
 def hash_password(password):
     #"""Hash a password for storing."""
@@ -84,25 +84,25 @@ def get_hist_computers():
 
 
 def exploreusers(i):
-    DC1=glob.ldap_servers[i].split('.')[1]
-    DC2=glob.ldap_servers[i].split('.')[2]
+    DC1=init.ldap_servers[i].split('.')[1]
+    DC2=init.ldap_servers[i].split('.')[2]
     db=client.db
     conn=db.users
-    if(glob.ssh_server[i]!=""):
+    if(init.ssh_server[i]!=""):
         tunnel = sshtunnel.SSHTunnelForwarder(
-            (glob.ssh_server[i],glob.ssh_port[i]),
-            ssh_username=glob.ssh_username[i],
-            ssh_password=glob.ssh_password[i],
-            remote_bind_address=(glob.ldap_servers[i], 389),
+            (init.ssh_server[i],init.ssh_port[i]),
+            ssh_username=init.ssh_username[i],
+            ssh_password=init.ssh_password[i],
+            remote_bind_address=(init.ldap_servers[i], 389),
         )
         tunnel.start()
         server= Server('127.0.0.1',port=tunnel.local_bind_port,get_info=ALL)
-        query=Connection(server,DC1+'\\'+glob.username[i],glob.password[i],auto_bind=True) 
+        query=Connection(server,DC1+'\\'+init.username[i],init.password[i],auto_bind=True) 
         query.search('CN=Users,DC='+DC1+',DC='+DC2,'(objectclass=person)',attributes=["name","userprincipalname","memberof"])
         tunnel.stop()
     else:
-        server= Server(glob.ldap_servers[i],get_info=ALL)
-        query=Connection(server,DC1+'\\'+glob.username[i],glob.password[i],auto_bind=True) 
+        server= Server(init.ldap_servers[i],get_info=ALL)
+        query=Connection(server,DC1+'\\'+init.username[i],init.password[i],auto_bind=True) 
         query.search('CN=Users,DC='+DC1+',DC='+DC2,'(objectclass=person)',attributes=["name","userprincipalname","memberof"])
     
     
@@ -113,26 +113,26 @@ def exploreusers(i):
         
         
 def exploredevices(i):
-    DC1=glob.ldap_servers[i].split('.')[1]
-    DC2=glob.ldap_servers[i].split('.')[2]
+    DC1=init.ldap_servers[i].split('.')[1]
+    DC2=init.ldap_servers[i].split('.')[2]
     db=client.db
     conn=db.computers
     
-    if(glob.ssh_server[i]!=""):
+    if(init.ssh_server[i]!=""):
         tunnel = sshtunnel.SSHTunnelForwarder(
-            (glob.ssh_server[i],glob.ssh_port[i]),
-            ssh_username=glob.ssh_username[i],
-            ssh_password=glob.ssh_password[i],
-            remote_bind_address=(glob.ldap_servers[i], 389),
+            (init.ssh_server[i],init.ssh_port[i]),
+            ssh_username=init.ssh_username[i],
+            ssh_password=init.ssh_password[i],
+            remote_bind_address=(init.ldap_servers[i], 389),
         )
         tunnel.start()
         server= Server('127.0.0.1',port=tunnel.local_bind_port,get_info=ALL)
-        query=Connection(server,DC1+'\\'+glob.username[i],glob.password[i],auto_bind=True) 
+        query=Connection(server,DC1+'\\'+init.username[i],init.password[i],auto_bind=True) 
         query.search('CN=Computers,DC='+DC1+',DC='+DC2,'(objectclass=computer)',attributes=["dnshostname","cn","operatingsystem","operatingsystemhotfix","operatingsystemservicepack","operatingsystemversion","memberof","lastlogon"])
         tunnel.stop()
     else:   
-        server= Server(glob.ldap_servers[i],get_info=ALL)
-        query=Connection(server,DC1+'\\'+glob.username[i],glob.password[i],auto_bind=True) 
+        server= Server(init.ldap_servers[i],get_info=ALL)
+        query=Connection(server,DC1+'\\'+init.username[i],init.password[i],auto_bind=True) 
         query.search('CN=Computers,DC='+DC1+',DC='+DC2,'(objectclass=computer)',attributes=["dnshostname","cn","operatingsystem","operatingsystemhotfix","operatingsystemservicepack","operatingsystemversion","memberof","lastlogon"])
 
       
@@ -256,7 +256,7 @@ def initiator():
     if(org is not None or org != "None"):
         github_dork(org)         #Release the chains
     print("Exploring the Network")
-    for i in range(len(glob.username)):
+    for i in range(len(init.username)):
         exploredevices(i)
         exploreusers(i)
     #function to start all discovery
