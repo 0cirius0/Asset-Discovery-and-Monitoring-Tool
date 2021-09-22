@@ -46,11 +46,11 @@ In case of devices the data stored contains but not limited to the version of OS
 
 In case of monitoring, the devices accessed by user along with the IP and MAC, if the user was using RDP to access are stored so that if any user's creds get compromised then it can devices accessed by attacker can be easily narrowed down and checked manually for any malicious files.
 ## Working Screenshots
-![Dashboard](/Images/dashboard.png?raw=true)
-![Sites](/Images/sites.png?raw=true)
-![GitHub](/Images/github.png?raw=true)
-![Computers](/Images/computer_monitor.png?raw=true)
-![Info](/Images/info.png?raw=true)
+![Dashboard](/images/dashboard.png?raw=true)
+![Sites](/images/sites.png?raw=true)
+![GitHub](/images/github.png?raw=true)
+![Computers](/images/computer_monitor.png?raw=true)
+![Info](/images/info.png?raw=true)
 
 ## Video Explanation
 [YouTube!](https://www.youtube.com/watch?v=Jy4RYCCsZeY)

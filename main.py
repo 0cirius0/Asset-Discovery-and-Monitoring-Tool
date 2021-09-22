@@ -594,7 +594,7 @@ def setorg():
 
 def apprun():
     cwd=os.getcwd()
-    app.run(debug=True, host='0.0.0.0', port=5000 , ssl_context=(cwd+'\\SSL Certificate\\cert.pem', cwd+'\\SSL Certificate\\key.pem'), use_reloader=False)
+    app.run(debug=True, host='0.0.0.0', port=5000 , ssl_context=(cwd+'\\ssl\\cert.pem', cwd+'\\ssl\\key.pem'), use_reloader=False)
 
 if __name__ == '__main__':
     cwd=os.getcwd()

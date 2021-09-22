@@ -7,7 +7,7 @@ from functools import wraps
 from bson import ObjectId
 import hashlib, binascii
 from werkzeug.security import generate_password_hash, check_password_hash
-from Nuclei.nuclei import *
+from nuclei.nuclei import *
 import init
 from timerClass import *
 import string,random 
