@@ -28,6 +28,8 @@ It is a click-to-run tool and is capable of doing most of its functions with min
 
 
 Now, just run the main.py. On first run of the tool it would asks for few permissions(optional; needed only if monitoring service is to be enabled), which would be used to create rule in firewall to open a port for local and domain network through which it would get the required data from the devices. The same port would be used by the webapp for the User Interaction.
+
+
 To also monitor the user activity in the network, employ the logon/logoff scripts inside the agents directory using an AD group policy and the tool would start monitoring the activity of users/devices and send all data to the tool for proccessing.
 
 ##  Functionalities
