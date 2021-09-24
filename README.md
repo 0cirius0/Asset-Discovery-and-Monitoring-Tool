@@ -55,7 +55,7 @@ In case of monitoring, the devices accessed by user, along with the IP and MAC o
 ![Dashboard](/Images/dashboard.png?raw=true)
 ![Sites](/Images/sites.png?raw=true)
 ![GitHub](/Images/github.png?raw=true)
-![Computers](/Images/computer_monitor.png?raw=true)
+![Computers](/Images/computers_monitor.png?raw=true)
 ![Info](/Images/info.png?raw=true)
 
 ## Video Explanation
