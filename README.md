@@ -6,7 +6,7 @@ The tool scans the network as specified and finds every user and computer in the
 The tool also finds external assets of the organization as well as possible threats to the organization infrastructure by leaked sensitive data on GitHub. The discovered domains/subdomains are timely checked for vulnerabilites with nuclei framework and alerts are created accordingly.
 
 ## How it does?
-The tool uses ldap3 python library to interact with the domain controller and get the required information, if the AD network is not inside current network,i.e. it is a remote network, then the tool establsihes a SSH Tunnel to interact with the remote AD network.
+The tool uses ldap3 python library to interact with the domain controller and get the required information of all the devices and users in the network, if the AD network is not inside current network,i.e. it is in remote network, then the tool establsihes a SSH Tunnel to interact with the remote AD network domain controller and queries the required info regarding the users and devices in that network.
 
 
 For external assets it uses sublist3r python module to find the subdomains owned by the organization and further uses [Nuclei Framework](https://github.com/projectdiscovery/nuclei) from Project Discovery to find vulnerabilities on the discovered subdomains. The tool also makes use of GitHub API in a intelligent way to find any sensitive information getting leaked through the organization's GitHub repos.  
