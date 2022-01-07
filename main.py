@@ -615,15 +615,3 @@ if __name__ == '__main__':
         print("Exiting")
         exit(0)
         
-#netstat -n | find ":3389" | find "ESTABLISHED" => Finds the IP of source device from which user has used Remote Desktop
-#arp -a lists all mac adrress of all devices in the network
-#open port in firewall for local network
-#Send response instantly and don't make computer wait.
-#CTRL+C not stopping script
-#server= Server('LAB-DC.lab01.local',get_info=ALL)
-#conn=Connection(server,'LAB01\Administrator','password@1',auto_bind=True) 
-#conn.search('CN=Users,DC=lab01,DC=local','(objectclass=person)',attributes=['memberof',ipv4']) 
-#https://ldap3.readthedocs.io/en/latest/tutorial_searches.html
-#subprocess.Popen("powershell -noprofile -command \"&{Start-Process powershell -Verb Runas -ArgumentList '-noprofile -file C:/Users/Administrator/Documents/openport.ps1'}\"",shell=True)
-#setup ssh server on windows10x64 and try local then remote forwarding
-#https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse
